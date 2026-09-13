@@ -33,20 +33,26 @@ jobs:
         shell: pwsh
         run: msbuild "HC Player.slnx" /t:Rebuild /p:Configuration=Portable /p:Platform=x64 /m /v:minimal
 
-      - name: Verify build output
+      - name: Locate build output
+        id: locate
         shell: pwsh
         run: |
-          $exe = "HC Player\x64\Portable\HC Player.exe"
-          if (-not (Test-Path $exe)) {
-            Write-Error "Build did not produce $exe"
+          $exe = Get-ChildItem -Path . -Recurse -Filter "HC Player.exe" -ErrorAction SilentlyContinue |
+            Select-Object -First 1
+          if (-not $exe) {
+            Write-Error "Build did not produce HC Player.exe anywhere under the repo."
+            Write-Host "All .exe files found:"
+            Get-ChildItem -Path . -Recurse -Filter "*.exe" -ErrorAction SilentlyContinue |
+              ForEach-Object { Write-Host $_.FullName }
             exit 1
           }
-          Write-Host "Build OK: $exe"
+          Write-Host "Build OK: $($exe.FullName)"
+          "exe_dir=$($exe.DirectoryName)" >> $env:GITHUB_OUTPUT
 
       - name: Zip build output
         if: github.event_name == 'schedule'
         shell: pwsh
-        run: Compress-Archive -Path "HC Player\x64\Portable\*" -DestinationPath "HC-Player-weekly-build.zip"
+        run: Compress-Archive -Path "${{ steps.locate.outputs.exe_dir }}\*" -DestinationPath "HC-Player-weekly-build.zip"
 
       - name: Publish weekly dev build
         if: github.event_name == 'schedule'
