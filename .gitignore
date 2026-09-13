@@ -67,8 +67,5 @@ Desktop.ini
 *.orig
 *~
 
-# Large frozen libmpv binary
-/HC Player/third_party/libmpv/x64/libmpv-2.dll
-
 # Portable mode marker
 /HC Player/portable.flag

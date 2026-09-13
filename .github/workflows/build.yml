@@ -1,0 +1,68 @@
+name: Build
+
+# Manual runs (Actions tab -> Run workflow) just verify the build still
+# compiles. The Monday schedule does the same, then additionally publishes a
+# clearly-labeled "weekly-build" pre-release -- it never touches the real
+# tagged v* releases or the official installer.
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 8 * * 1' # every Monday, 08:00 UTC, regardless of what changed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        shell: pwsh
+        run: nuget restore "HC Player.slnx"
+
+      - name: Build (Portable|x64, self-contained)
+        shell: pwsh
+        run: msbuild "HC Player.slnx" /t:Rebuild /p:Configuration=Portable /p:Platform=x64 /m /v:minimal
+
+      - name: Verify build output
+        shell: pwsh
+        run: |
+          $exe = "HC Player\x64\Portable\HC Player.exe"
+          if (-not (Test-Path $exe)) {
+            Write-Error "Build did not produce $exe"
+            exit 1
+          }
+          Write-Host "Build OK: $exe"
+
+      - name: Zip build output
+        if: github.event_name == 'schedule'
+        shell: pwsh
+        run: Compress-Archive -Path "HC Player\x64\Portable\*" -DestinationPath "HC-Player-weekly-build.zip"
+
+      - name: Publish weekly dev build
+        if: github.event_name == 'schedule'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: weekly-build
+          name: "Weekly dev build (auto)"
+          prerelease: true
+          body: |
+            Automated, unsigned CI build from `main` @ ${{ github.sha }}.
+
+            This is **not** a stable release: no installer, no code signing, no manual QA.
+            It's a self-contained Portable|x64 zip, published every Monday purely to track
+            build health over time. For the real, supported releases, see the tagged
+            `v*` releases instead.
+
+            Bundled `libmpv-2.dll` matches the revisions pinned in
+            `HC Player/SOURCE-MANIFEST.md`.
+          files: HC-Player-weekly-build.zip
