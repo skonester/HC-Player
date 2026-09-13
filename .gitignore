@@ -66,6 +66,3 @@ Desktop.ini
 *.old
 *.orig
 *~
-
-# Portable mode marker
-/HC Player/portable.flag
