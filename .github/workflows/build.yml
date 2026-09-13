@@ -1,7 +1,8 @@
 name: Build
 
-# Manual runs (Actions tab -> Run workflow) just verify the build still
-# compiles. The Monday schedule does the same, then additionally publishes a
+# Every run (manual or scheduled) compiles the app and uploads the raw
+# Portable|x64 output as a downloadable run artifact, visible on that run's
+# summary page. The Monday schedule additionally publishes the same zip as a
 # clearly-labeled "weekly-build" pre-release -- it never touches the real
 # tagged v* releases or the official installer.
 on:
@@ -50,9 +51,15 @@ jobs:
           "exe_dir=$($exe.DirectoryName)" >> $env:GITHUB_OUTPUT
 
       - name: Zip build output
-        if: github.event_name == 'schedule'
         shell: pwsh
         run: Compress-Archive -Path "${{ steps.locate.outputs.exe_dir }}\*" -DestinationPath "HC-Player-weekly-build.zip"
+
+      - name: Upload build as run artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HC-Player-build
+          path: HC-Player-weekly-build.zip
+          retention-days: 14
 
       - name: Publish weekly dev build
         if: github.event_name == 'schedule'
