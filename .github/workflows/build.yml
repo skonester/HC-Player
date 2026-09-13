@@ -1,10 +1,11 @@
 name: Build
 
-# Every run (manual or scheduled) compiles the app and uploads the raw
-# Portable|x64 output as a downloadable run artifact, visible on that run's
-# summary page. The Monday schedule additionally publishes the same zip as a
+# Every run (manual or scheduled) compiles the app and packages the
+# Portable|x64 output into a single installer .exe (packaging/weekly-build.iss),
+# uploaded as a downloadable run artifact on that run's summary page. The
+# Monday schedule additionally publishes the same installer as a
 # clearly-labeled "weekly-build" pre-release -- it never touches the real
-# tagged v* releases or the official installer.
+# tagged v* releases or the hand-built official installer.
 on:
   workflow_dispatch: {}
   schedule:
@@ -50,15 +51,31 @@ jobs:
           Write-Host "Build OK: $($exe.FullName)"
           "exe_dir=$($exe.DirectoryName)" >> $env:GITHUB_OUTPUT
 
-      - name: Zip build output
+      - name: Install Inno Setup
         shell: pwsh
-        run: Compress-Archive -Path "${{ steps.locate.outputs.exe_dir }}\*" -DestinationPath "HC-Player-weekly-build.zip"
+        run: choco install innosetup -y --no-progress
 
-      - name: Upload build as run artifact
+      - name: Build installer (single .exe)
+        shell: pwsh
+        run: |
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          & $iscc /DSourceDir="${{ steps.locate.outputs.exe_dir }}" /DAppVersion="0.0.0-${{ github.run_number }}" /O"${{ github.workspace }}" packaging\weekly-build.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Verify installer output
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "HC-Player-Setup.exe")) {
+            Write-Error "Installer was not produced."
+            exit 1
+          }
+          Write-Host "Installer OK: HC-Player-Setup.exe"
+
+      - name: Upload installer as run artifact
         uses: actions/upload-artifact@v4
         with:
-          name: HC-Player-build
-          path: HC-Player-weekly-build.zip
+          name: HC-Player-Setup
+          path: HC-Player-Setup.exe
           retention-days: 14
 
       - name: Publish weekly dev build
@@ -71,11 +88,11 @@ jobs:
           body: |
             Automated, unsigned CI build from `main` @ ${{ github.sha }}.
 
-            This is **not** a stable release: no installer, no code signing, no manual QA.
-            It's a self-contained Portable|x64 zip, published every Monday purely to track
-            build health over time. For the real, supported releases, see the tagged
-            `v*` releases instead.
+            This is **not** a stable release: no code signing, no manual QA.
+            It's a single-file installer built from the self-contained Portable|x64
+            output, published every Monday purely to track build health over time.
+            For the real, supported releases, see the tagged `v*` releases instead.
 
             Bundled `libmpv-2.dll` matches the revisions pinned in
             `HC Player/SOURCE-MANIFEST.md`.
-          files: HC-Player-weekly-build.zip
+          files: HC-Player-Setup.exe
