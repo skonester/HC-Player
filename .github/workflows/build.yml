@@ -86,12 +86,14 @@ jobs:
           name: "Weekly dev build (auto)"
           prerelease: true
           body: |
-            Automated, unsigned CI build from `main` @ ${{ github.sha }}.
+            Automated build from `main` @ ${{ github.sha }}, packaged every Monday
+            to track build health over time.
 
-            This is **not** a stable release: no code signing, no manual QA.
-            It's a single-file installer built from the self-contained Portable|x64
-            output, published every Monday purely to track build health over time.
-            For the real, supported releases, see the tagged `v*` releases instead.
+            This build isn't code-signed, so Windows SmartScreen may show an
+            "unknown publisher" prompt the first time you run the installer.
+            That's expected for an unsigned CI build -- click **More info** ->
+            **Run anyway** to continue. For signed, QA'd releases, grab the
+            tagged `v*` releases instead.
 
             Bundled `libmpv-2.dll` matches the revisions pinned in
             `HC Player/SOURCE-MANIFEST.md`.
