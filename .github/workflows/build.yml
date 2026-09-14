@@ -3,9 +3,10 @@ name: Build
 # Every run (manual or scheduled) compiles the app and packages the
 # Portable|x64 output into a single installer .exe (packaging/weekly-build.iss),
 # uploaded as a downloadable run artifact on that run's summary page. The
-# Monday schedule additionally publishes the same installer as a
-# clearly-labeled "weekly-build" pre-release -- it never touches the real
-# tagged v* releases or the hand-built official installer.
+# Monday schedule additionally publishes the same installer under the
+# evergreen "weekly-build" tag and sets it as the repo's Latest release, so
+# it gets visibility/traction -- it still never touches the tagged v*
+# release assets themselves, just which one GitHub shows as Latest.
 on:
   workflow_dispatch: {}
   schedule:
@@ -84,16 +85,15 @@ jobs:
         with:
           tag_name: weekly-build
           name: "Weekly dev build (auto)"
-          prerelease: true
+          prerelease: false
+          make_latest: "true"
           body: |
-            Automated build from `main` @ ${{ github.sha }}, packaged every Monday
-            to track build health over time.
+            Fresh automated build from `main` @ ${{ github.sha }}, packaged
+            every Monday.
 
             This build isn't code-signed, so Windows SmartScreen may show an
-            "unknown publisher" prompt the first time you run the installer.
-            That's expected for an unsigned CI build -- click **More info** ->
-            **Run anyway** to continue. For signed, QA'd releases, grab the
-            tagged `v*` releases instead.
+            "unknown publisher" prompt the first time you run the installer --
+            click **More info** -> **Run anyway** to continue.
 
             Bundled `libmpv-2.dll` matches the revisions pinned in
             `HC Player/SOURCE-MANIFEST.md`.
