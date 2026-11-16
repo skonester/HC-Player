@@ -175,10 +175,8 @@ Portable distribution is not included in the HC Player 1.0 public release.
 
 ## Open Source
 
-Original HC Player work by **henzfdev** is licensed under the **GNU
-GPL-3.0-or-later**. Any HC Player work added or modified after November 16,
-2026 is licensed under the **GNU Affero General Public License version 3
-(AGPLv3)**.
+HC Player is licensed under the **GNU Affero General Public License version 3
+(AGPLv3)**. Original author: **henzfdev**.
 
 Third-party components remain under their respective licenses.
 

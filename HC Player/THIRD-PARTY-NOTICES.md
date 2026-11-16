@@ -1,9 +1,8 @@
 # HC Player — Third-party notices
 
-HC Player is free software. Original HC Player work by **henzfdev** is licensed
-under the **GNU GPL-3.0-or-later**. Any HC Player work added or modified after
-November 16, 2026 is licensed under the **GNU Affero General Public License,
-version 3 (AGPLv3)**. The applicable license texts are provided in `LICENSE`.
+HC Player is free software licensed under the **GNU Affero General Public
+License, version 3 (AGPLv3)**. The original author is **henzfdev**. The complete
+AGPLv3 text is provided in `LICENSE`.
 
 Third-party components keep their own copyright notices and license terms.
 Nothing in the HC Player license changes the license of a separately licensed
@@ -48,7 +47,7 @@ BSD-style 3-Clause notice remains included in
 
 The current unpackaged, framework-dependent release contains
 `Microsoft.WindowsAppRuntime.Bootstrap.dll`. This Microsoft component is not
-covered by the HC Player GPL or AGPL; it remains governed by Microsoft's own Windows
+covered by the HC Player AGPL; it remains governed by Microsoft's own Windows
 App SDK license terms. See
 `Licenses/Microsoft-WindowsAppSDK-2.4.0-NOTICE.txt`.
 

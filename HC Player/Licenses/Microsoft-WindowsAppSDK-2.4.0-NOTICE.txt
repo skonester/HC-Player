@@ -4,8 +4,7 @@ HC Player's current unpackaged/framework-dependent build includes
 Microsoft.WindowsAppRuntime.Bootstrap.dll, binplaced by the Windows App SDK
 NuGet toolchain.
 
-This Microsoft component is NOT licensed under the HC Player GPL or AGPL
-license. It
+This Microsoft component is NOT licensed under the HC Player AGPL license. It
 remains subject to the Microsoft Windows App SDK software license terms.
 
 Official license for Microsoft.WindowsAppSDK 2.4.0:
