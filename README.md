@@ -182,7 +182,8 @@ GPL-3.0-or-later**. Any HC Player work added or modified after November 16,
 
 Third-party components remain under their respective licenses.
 
-See `LICENSE`, `THIRD-PARTY-NOTICES.md` and `SOURCE-MANIFEST.md` for details.
+See `LICENSE`, `LICENSE-NOTICE.md`, `THIRD-PARTY-NOTICES.md` and
+`SOURCE-MANIFEST.md` for details.
 
 Source and compliance materials for each public release are available alongside the installer in the corresponding GitHub Release.
 
