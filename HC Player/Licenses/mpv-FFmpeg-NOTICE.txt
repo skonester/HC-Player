@@ -32,5 +32,6 @@ Relevant upstream license references:
 https://github.com/mpv-player/mpv/blob/master/Copyright
 https://ffmpeg.org/doxygen/trunk/md_LICENSE.html
 
-The HC Player GNU AGPLv3 text is in ../LICENSE. The GPL-2.0 and LGPL-2.1
-reference texts are also included in this Licenses folder.
+The HC Player GPL-3.0-or-later text and post-November 16, 2026 AGPLv3 notice
+are in ../LICENSE. The GPL-2.0 and LGPL-2.1 reference texts are also included
+in this Licenses folder.
