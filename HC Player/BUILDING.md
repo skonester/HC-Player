@@ -1,7 +1,7 @@
 # Building HC Player
 
 This document describes the HC Player application build. The separately built
-GPL `libmpv-2.dll` is documented in `SOURCE-MANIFEST.md` and must have its own
+The separately built GPL `libmpv-2.dll` is documented in `SOURCE-MANIFEST.md` and must have its own
 corresponding-source archive for public releases.
 
 ## Toolchain
@@ -48,7 +48,7 @@ Do not ship linker/debug artifacts in the public binary archive:
 The application does not require them to run. The legal files configured in the
 project are copied to the release output automatically.
 
-## GPL release rule
+## AGPL release rule
 
 Do not publish a binary-only release. The public binary and the exact
 corresponding-source archive described in `SOURCE-MANIFEST.md` must be made

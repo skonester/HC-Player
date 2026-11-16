@@ -535,13 +535,13 @@
     <value>Licenças de código aberto</value>
   </data>
   <data name="SettingsB167.Text" xml:space="preserve">
-    <value>O HC Player é software livre distribuído sob a GNU GPL v3 ou posterior. Componentes de terceiros permanecem sujeitos aos seus próprios termos e avisos de copyright.</value>
+    <value>O HC Player é software livre distribuído sob a GNU AGPL v3. Componentes de terceiros permanecem sujeitos aos seus próprios termos e avisos de copyright.</value>
   </data>
   <data name="SettingsB168.Text" xml:space="preserve">
     <value>Componentes principais</value>
   </data>
   <data name="SettingsB169.Text" xml:space="preserve">
-    <value>• HC Player — GPL-3.0-or-later
+    <value>• HC Player — AGPL-3.0
 • mpv / FFmpeg / libplacebo — cadeia multimídia GPL/LGPL
 • MediaInfo — BSD-2-Clause
 • Windows App SDK / WinUI — termos Microsoft</value>

@@ -5,7 +5,7 @@ binary and corresponding-source archive.
 
 ## HC Player
 
-- License: GPL-3.0-or-later
+- License: AGPL-3.0
 - Target: Windows x64
 - Language: C++20 / C++/WinRT / WinUI 3
 - Windows App SDK package: 2.4.0

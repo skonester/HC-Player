@@ -1,4 +1,4 @@
-# HC Player 1.0 — GPL release checklist
+# HC Player 1.0 — AGPL release checklist
 
 This checklist is intentionally conservative. A checked application build is
 not automatically a legally complete public release.
@@ -22,4 +22,4 @@ not automatically a legally complete public release.
       channels/jurisdictions.
 - [ ] Dolby/DTS/YouTube/HDR10+ naming and trademark presentation are reviewed.
 - [ ] Codec-patent considerations for the intended distribution model/regions
-      are reviewed separately from GPL compliance.
+      are reviewed separately from AGPL compliance.
